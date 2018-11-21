@@ -1,10 +1,23 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Routes, RouterModule, Router } from '@angular/router';
 
-const routes: Routes = [];
+const appRoutes: Routes = [
+  {path: 'login', component: LoginComponent },
+];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule { 
+
+  private loginURL = '/app/login';
+  private homeURL = '/app/home';
+  private profileURL = '/app/profile';
+  public connected = false;
+
+  constructor(private router: Router){
+
+  }
+
+}
