@@ -4,8 +4,9 @@ import { Router } from '@angular/router';
 import { AngularFireAuth } from 'angularfire2/auth';
 import * as firebase from 'firebase/app';
 import { Observable } from 'rxjs';
-import { FirebaseAuth } from 'angularfire2';
 import { AngularFireDatabase } from 'angularfire2/database';
+import { MatSnackBar } from '@angular/material';
+
 
 
 interface User{
@@ -23,7 +24,8 @@ export class AuthService {
 
   constructor(private fAuth: AngularFireAuth, 
               private db: AngularFireDatabase, 
-              private router: Router) { 
+              private router: Router,
+              private snackbar: MatSnackBar) { 
     this.user = fAuth.authState;
 
   }
@@ -32,31 +34,22 @@ export class AuthService {
     this.fAuth.auth
       .createUserWithEmailAndPassword(email, password)
       .then(credential => {
+        let snackRef = this.snackbar.open("Registration Successful!")
         return this.updateUserData(credential.user); // if using firestore
-      })
-      .catch(function(error){
+      })     
+      .catch(error => {
         var errorCode = error.code;
         if(errorCode === 'auth/email-already-in-use'){
-          alert("user already exists!");
-          return false;
+          let snackRef = this.snackbar.open("Email Already In Use! Please try a different email.");
         }
         else if(errorCode === 'auth/invalid-email'){
-          alert("invalid email!");
+          let snackRef = this.snackbar.open("Please Use a Valid Email!");
           return false;
         }
         else if(errorCode == 'auth/operation-not-allowed'){
-          alert("invalid op");
-          return false;
+          let snackRef = this.snackbar.open("Invalid Operation");
         }
-        else if(errorCode = 'auth/weak-password'){
-          console.log("password was too weak according to google");
-          //alert("password too weak");
-          return true;
-        }
-        else
-          console.log(error.message);
       });
-      return true;
   }
 
   emailLogin(email: string, password: string) {

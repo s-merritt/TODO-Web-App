@@ -9,6 +9,8 @@ export interface DialogData{
 
 
 import { AuthService } from '../../services/auth.service';
+import { MatSnackBar } from '@angular/material';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -58,7 +60,7 @@ export class LoginComponent implements OnInit {
   templateUrl: 'dialog.html'
 })
 export class LoginDialog {
-  constructor(public mAuth: AuthService, public dialogRef: MatDialogRef<LoginDialog>,
+  constructor(public snackbar: MatSnackBar, public mAuth: AuthService, public dialogRef: MatDialogRef<LoginDialog>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData){
     }
 

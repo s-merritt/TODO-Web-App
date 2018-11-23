@@ -18,7 +18,8 @@ import { FormsModule } from '@angular/forms';
 
 import { MatDialogModule, 
         MatButtonModule, 
-        MatFormFieldModule } from '@angular/material';
+        MatFormFieldModule,
+        MatSnackBarModule } from '@angular/material';
 
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import {ScrollingModule} from '@angular/cdk/scrolling';
@@ -57,6 +58,7 @@ const appRoutes: Routes = [
     DragDropModule,
     ScrollingModule,
     BrowserAnimationsModule,
+    MatSnackBarModule
   ],
   entryComponents: [LoginDialog],
   providers: [AuthService],
