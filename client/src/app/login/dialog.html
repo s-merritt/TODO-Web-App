@@ -2,13 +2,14 @@
 <div mat-dialog-content>
     <p>Email: </p>
     <!-- <mat-form-field> -->
-        <input matInput [(ngModel)]="data.email">
+        <input type="email" matInput [(ngModel)]="data.email">
     <!-- </mat-form-field> -->
     <p>Password: </p>
    <!--- <mat-form-field> -->
-        <input matInput [(ngModel)]="data.password">
+        <input type="password" matInput [(ngModel)]="data.password">
     <!-- </mat-form-field> -->
 </div>
 <div mat-dialog-actions>
     <button mat-button (click)="attemptReg()">Register</button>
+    <button mat-button (click)="closeDiag()">Cancel</button>
 </div>

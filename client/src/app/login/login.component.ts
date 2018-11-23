@@ -10,6 +10,7 @@ export interface DialogData{
 
 import { AuthService } from '../../services/auth.service';
 import { MatSnackBar } from '@angular/material';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -26,7 +27,7 @@ export class LoginComponent implements OnInit {
   mAuth: AuthService;
 
 
-  constructor(mAuth: AuthService, public dialog: MatDialog) {
+  constructor(mAuth: AuthService, public dialog: MatDialog, public router: Router) {
     this.mAuth = mAuth;
    }
 
@@ -34,15 +35,15 @@ export class LoginComponent implements OnInit {
   }
 
   onLogin(){
-    if(this.mAuth.emailLogin(this.emailField, this.pswdField))
-      alert("login successful!");
+    this.mAuth.emailLogin(this.emailField, this.pswdField);
+    this.router.navigateByUrl("/home");
   }
 
   onReg(){
     //create dialog box
     let dialogRef = this.dialog.open(LoginDialog, {
-      height: '400px',
-      width: '600px',
+      height: '300px',
+      width: '300px',
       data: {email: this.newEmail, password: this.newPass}
     });
 
@@ -60,7 +61,9 @@ export class LoginComponent implements OnInit {
   templateUrl: 'dialog.html'
 })
 export class LoginDialog {
-  constructor(public snackbar: MatSnackBar, public mAuth: AuthService, public dialogRef: MatDialogRef<LoginDialog>,
+  constructor(public snackbar: MatSnackBar, 
+              public mAuth: AuthService, 
+              public dialogRef: MatDialogRef<LoginDialog>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData){
     }
 
@@ -68,4 +71,7 @@ export class LoginDialog {
     this.mAuth.emailSignUp(this.data.email, this.data.password);
   }
 
+  closeDiag(){
+    this.dialogRef.close();
+  }
 }

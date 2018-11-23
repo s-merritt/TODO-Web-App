@@ -34,17 +34,15 @@ export class AuthService {
     this.fAuth.auth
       .createUserWithEmailAndPassword(email, password)
       .then(credential => {
-        let snackRef = this.snackbar.open("Registration Successful!")
-        return this.updateUserData(credential.user); // if using firestore
+        let snackRef = this.snackbar.open("Registration Successful! Please login to your new account to proceed.")
       })     
       .catch(error => {
         var errorCode = error.code;
         if(errorCode === 'auth/email-already-in-use'){
-          let snackRef = this.snackbar.open("Email Already In Use! Please try a different email.");
+          let snackRef = this.snackbar.open("Email already in use! Please try a different email.");
         }
         else if(errorCode === 'auth/invalid-email'){
-          let snackRef = this.snackbar.open("Please Use a Valid Email!");
-          return false;
+          let snackRef = this.snackbar.open("Please use a valid email address!");
         }
         else if(errorCode == 'auth/operation-not-allowed'){
           let snackRef = this.snackbar.open("Invalid Operation");
@@ -55,18 +53,14 @@ export class AuthService {
   emailLogin(email: string, password: string) {
     this.fAuth.auth
       .signInWithEmailAndPassword(email, password)
-      .catch(function(error){
+      .then(credential => {
+        let snackRef = this.snackbar.open("Login Successful");
+      })
+      .catch(error => {
         var errorCode = error.code;
         if(errorCode === 'auth/user-not-found'){
-          alert("user not found");
-          return false;
+          let snackRef = this.snackbar.open("Email/Password do not match, try again!");
         }
-        else return true;
       });
-      return true;
-  }
-
-  private updateUserData(user: User){
-
   }
 }
