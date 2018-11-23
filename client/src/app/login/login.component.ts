@@ -60,14 +60,10 @@ export class LoginComponent implements OnInit {
 export class LoginDialog {
   constructor(public mAuth: AuthService, public dialogRef: MatDialogRef<LoginDialog>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData){
-      data.email = "not@email.com";
-      data.password = "fake";
     }
 
   attemptReg(){
-    if(this.mAuth.emailSignUp(this.data.email, this.data.password))
-      alert("new account created");
-    
+    this.mAuth.emailSignUp(this.data.email, this.data.password);
   }
 
 }

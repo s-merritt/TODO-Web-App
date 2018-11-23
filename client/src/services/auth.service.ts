@@ -49,7 +49,8 @@ export class AuthService {
           return false;
         }
         else if(errorCode = 'auth/weak-password'){
-          alert("password too weak");
+          console.log("password was too weak according to google");
+          //alert("password too weak");
           return true;
         }
         else
