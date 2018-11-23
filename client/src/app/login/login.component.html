@@ -1,3 +1,21 @@
-<p>
-  login works!
-</p>
+<div class="container">
+  <h1>Login</h1>
+  <form>
+      <div class="form_group">
+        <label for="email_in">Email address</label>
+        <input type="email" class="form_box" id="email_in" placeholder="fake@email.com" [(ngModel)]="emailField" name="email1">
+      </div>
+      <div class="form_group">
+        <label for="pswd_in">Password</label>
+        <input type="password" class="form_box" id="pswd_in" placeholder="password" [(ngModel)]="pswdField" name="pswd1">
+      </div>
+
+      <div class="form_group">
+          <button type="button" class="login_btn" (click)="onLogin()">Login</button>
+      </div>
+
+      <div class="form_group">
+          <button type="button" class="register_btn" (click)="onReg()">Register</button>
+      </div>
+  </form>      
+</div>

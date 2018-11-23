@@ -1,4 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+
+
+export interface DialogData{
+  email: string;
+  password: string;
+}
+
+
+import { AuthService } from '../../services/auth.service';
+import { MatSnackBar } from '@angular/material';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -6,10 +18,60 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+  emailField: string;
+  pswdField: string;
 
-  constructor() { }
+  newEmail: string;
+  newPass: string;
+
+  mAuth: AuthService;
+
+
+  constructor(mAuth: AuthService, public dialog: MatDialog, public router: Router) {
+    this.mAuth = mAuth;
+   }
 
   ngOnInit() {
   }
 
+  onLogin(){
+    this.mAuth.emailLogin(this.emailField, this.pswdField);
+    this.router.navigateByUrl("/home");
+  }
+
+  onReg(){
+    //create dialog box
+    let dialogRef = this.dialog.open(LoginDialog, {
+      height: '300px',
+      width: '300px',
+      data: {email: this.newEmail, password: this.newPass}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+
+    });
+
+    
+  }
+
+}
+
+@Component({
+  selector: 'login-dialog',
+  templateUrl: 'dialog.html'
+})
+export class LoginDialog {
+  constructor(public snackbar: MatSnackBar, 
+              public mAuth: AuthService, 
+              public dialogRef: MatDialogRef<LoginDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData){
+    }
+
+  attemptReg(){
+    this.mAuth.emailSignUp(this.data.email, this.data.password);
+  }
+
+  closeDiag(){
+    this.dialogRef.close();
+  }
 }
