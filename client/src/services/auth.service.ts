@@ -42,6 +42,13 @@ export class AuthService {
             TasksCompleted: 0,
             TasksIncomplete: 0,
             startTime: firebase.firestore.FieldValue.serverTimestamp() //get Timestamp
+        })
+        .then(result => {
+            console.log("new user added");
+        })
+        .catch(error => {
+            console.log("error adding user");
+            console.log(error.message);
         });
       })     
       .catch(error => {
