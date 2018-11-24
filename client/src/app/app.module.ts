@@ -10,7 +10,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { environment } from '../environments/environment';
 import { AngularFireModule } from 'angularfire2';
-import { AngularFireDatabaseModule } from 'angularfire2/database';
+import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 
 import { AuthService } from '../services/auth.service';
@@ -47,7 +47,7 @@ const appRoutes: Routes = [
     BrowserModule,
     RouterModule.forRoot(appRoutes, {enableTracing: true}),
     AngularFireModule.initializeApp(environment.firebase, 'angular-auth-firebase'),
-    AngularFireDatabaseModule,
+    AngularFirestoreModule,
     AngularFireAuthModule,
     FormsModule,
     MatDialogModule,

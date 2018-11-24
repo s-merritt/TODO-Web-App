@@ -1,16 +1,13 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-
+import { AuthService } from '../../services/auth.service';
+import { MatSnackBar } from '@angular/material';
+import { Router } from '@angular/router';
 
 export interface DialogData{
   email: string;
   password: string;
 }
-
-
-import { AuthService } from '../../services/auth.service';
-import { MatSnackBar } from '@angular/material';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -45,13 +42,7 @@ export class LoginComponent implements OnInit {
       height: '300px',
       width: '300px',
       data: {email: this.newEmail, password: this.newPass}
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-
-    });
-
-    
+    });   
   }
 
 }

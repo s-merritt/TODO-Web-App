@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { AngularFireAuth } from 'angularfire2/auth';
 import * as firebase from 'firebase/app';
 import { Observable } from 'rxjs';
-import { AngularFireDatabase } from 'angularfire2/database';
+import { AngularFirestore } from 'angularfire2/firestore';
 import { MatSnackBar } from '@angular/material';
 
 
@@ -23,7 +23,7 @@ export class AuthService {
   private user: Observable<firebase.User>;
 
   constructor(private fAuth: AngularFireAuth, 
-              private db: AngularFireDatabase, 
+              private db: AngularFirestore, 
               private router: Router,
               private snackbar: MatSnackBar) { 
     this.user = fAuth.authState;
@@ -35,6 +35,14 @@ export class AuthService {
       .createUserWithEmailAndPassword(email, password)
       .then(credential => {
         let snackRef = this.snackbar.open("Registration Successful! Please login to your new account to proceed.")
+        //create new user and stat object to add to firestore
+        this.db.collection("users").doc(email).set({
+            notification: false,
+            TaskIDs: [],
+            TasksCompleted: 0,
+            TasksIncomplete: 0,
+            startTime: firebase.firestore.FieldValue.serverTimestamp() //get Timestamp
+        });
       })     
       .catch(error => {
         var errorCode = error.code;
