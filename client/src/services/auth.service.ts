@@ -105,7 +105,7 @@ export class AuthService {
       })
       .catch(error => {
         var errorCode = error.code;
-        if((errorCode === "auth/user-not-found" || errorCode === "auth/wrong-password"){
+        if(errorCode === "auth/user-not-found" || errorCode === "auth/wrong-password"){
           let snackRef = this.snackbar.open("Email/Password do not match anything in our records, try again!");
         }
       });
