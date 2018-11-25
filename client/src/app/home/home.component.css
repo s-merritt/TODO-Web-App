@@ -1,0 +1,42 @@
+.table-box {
+    overflow: auto;
+    height: 500px;
+    width: 100%;
+    border: solid;
+    border-width: 1px;
+    border-radius: 8px;
+  }
+  p {
+    font-weight: 400;
+    font-size: 11pt;
+  }
+  
+  table {
+    width: 100%;
+    align-content: center;
+  }
+  
+  th{
+    text-align: center;
+    min-width: 80px;
+    width: 10%;
+    font-weight: bold;
+    font-size: 11pt;
+  }
+  td {
+    text-align: center;
+    min-width: 80px;
+    font-size: 11pt;
+  }
+  
+  thead>tr {
+    position: relative;
+    display: block;
+  }
+  
+  tbody {
+    display: block;
+    height: 90%;
+    overflow: auto;
+  }
+  

@@ -19,7 +19,9 @@ import { FormsModule } from '@angular/forms';
 import { MatDialogModule, 
         MatButtonModule, 
         MatFormFieldModule,
-        MatSnackBarModule } from '@angular/material';
+        MatSnackBarModule,
+        MatTableModule,
+        MatCardModule } from '@angular/material';
 
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import {ScrollingModule} from '@angular/cdk/scrolling';
@@ -53,7 +55,9 @@ const appRoutes: Routes = [
     FormsModule,
     MatDialogModule,
     MatButtonModule,
+    MatTableModule,
     MatFormFieldModule,
+    MatCardModule,
     CdkTableModule,
     CdkTreeModule,
     DragDropModule,

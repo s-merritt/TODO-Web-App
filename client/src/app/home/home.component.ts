@@ -29,16 +29,26 @@ export interface TaskDialogData {
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-
   //Fields
   descF: string;
   setTimeF: Date;
   titleF: string;
 
+  displayedColumns: string[] = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  AllTasks:Task[] = [];
+  sundayTasks: Task[] = [];
+  mondayTasks: Task[] = [];
+  tuesdayTasks: Task[] = [];
+  wednesdayTasks: Task[] = [];
+  thursdayTasks: Task[] = [];
+  fridayTasks: Task[] = [];
+  saturdayTasks: Task[] = [];
+
+
   constructor(private mAuth: AngularFireAuth,
     private router: Router,
     private db: AngularFirestore,
-    public dialog: MatDialog) { }
+    public dialog: MatDialog) {}
 
   ngOnInit() {
     //don't allow users who aren't logged in to access this page
@@ -46,7 +56,7 @@ export class HomeComponent implements OnInit {
     if (user == null) {
       this.router.navigateByUrl('/login');
     }
-    //this.getTasks();
+    this.getTasks();
   }
 
   createTask() {
@@ -69,8 +79,8 @@ export class HomeComponent implements OnInit {
 
         //get list of TaskIDs
         const taskIDs: string[] = result.get("TaskIDs");
-        taskIDs.forEach(TaskID => {
-          var taskDocRef = this.db.collection("tasks").doc(TaskID);
+        taskIDs.forEach(taskID => {
+          var taskDocRef = this.db.collection("tasks").doc(taskID);
           taskDocRef.get().subscribe(result => {
             if (result.exists) {
               //create local Task object from result
@@ -82,10 +92,11 @@ export class HomeComponent implements OnInit {
               };
 
               console.log(task);
+              this.AllTasks.push(task);
               //TODO parse task and display on page
             }
             else {
-              console.log("could not find taskID: " + TaskID);
+              console.log("could not find taskID: " + taskID);
             }
           });
         });
@@ -160,8 +171,6 @@ export class TaskDialog {
           });
       }
     });
-
-
   }
 
   closeDiag() {
