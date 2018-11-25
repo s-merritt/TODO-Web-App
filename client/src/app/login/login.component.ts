@@ -2,7 +2,6 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AuthService } from '../../services/auth.service';
 import { AngularFireAuth } from 'angularfire2/auth';
-import { MatSnackBar } from '@angular/material';
 import { Router } from '@angular/router';
 
 export interface DialogData{
@@ -22,12 +21,7 @@ export class LoginComponent implements OnInit {
   newEmail: string;
   newPass: string;
 
-  mAuth: AuthService;
-  fAuth: AngularFireAuth;
-
-  constructor(mAuth: AuthService, public dialog: MatDialog, public router: Router, fAuth: AngularFireAuth) {
-    this.mAuth = mAuth;
-    this.fAuth = fAuth;
+  constructor(private mAuth: AuthService, public dialog: MatDialog, public router: Router, private fAuth: AngularFireAuth) {
     var user = this.fAuth.auth.currentUser;
     if(user != null){
       if(user.emailVerified){
@@ -66,8 +60,7 @@ export class LoginComponent implements OnInit {
   templateUrl: 'dialog.html'
 })
 export class LoginDialog {
-  constructor(public snackbar: MatSnackBar, 
-              public mAuth: AuthService, 
+  constructor(public mAuth: AuthService, 
               public dialogRef: MatDialogRef<LoginDialog>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData){
     }

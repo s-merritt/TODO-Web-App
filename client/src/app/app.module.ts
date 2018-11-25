@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { LoginComponent, LoginDialog } from './login/login.component';
-import { HomeComponent } from './home/home.component';
+import { HomeComponent, TaskDialog } from './home/home.component';
 import { ProfileComponent } from './profile/profile.component';
 import { NavigationComponent } from './navigation/navigation.component';
 import { RouterModule, Routes } from '@angular/router';
@@ -41,7 +41,8 @@ const appRoutes: Routes = [
     HomeComponent,
     ProfileComponent,
     NavigationComponent,
-    LoginDialog
+    LoginDialog,
+    TaskDialog
   ],
   imports: [
     BrowserModule,
@@ -60,7 +61,7 @@ const appRoutes: Routes = [
     BrowserAnimationsModule,
     MatSnackBarModule
   ],
-  entryComponents: [LoginDialog],
+  entryComponents: [LoginDialog, TaskDialog],
   providers: [AuthService],
   bootstrap: [AppComponent]
 })

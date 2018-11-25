@@ -27,7 +27,7 @@ export class AuthService {
             TasksCompleted: 0,
             TasksIncomplete: 0,
             startTime: firebase.firestore.FieldValue.serverTimestamp() //get Timestamp
-        })
+        });
 
         //send email verification link
         credential.user.sendEmailVerification()
@@ -94,5 +94,9 @@ export class AuthService {
           let snackRef = this.snackbar.open("Email/Password do not match anything in our records, try again!");
         }
       });
+  }
+
+  getEmail(): string{
+    return this.fAuth.auth.currentUser.email;
   }
 }

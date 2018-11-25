@@ -1,0 +1,17 @@
+<h1 mat-dialog-title>Create Task</h1>
+<div mat-dialog-content>
+    <p>Title: </p>
+    <!-- <mat-form-field> -->
+        <input type="text" matInput [(ngModel)]="data.title">
+    <!-- </mat-form-field> -->
+    <p>Description: </p>
+   <!--- <mat-form-field> -->
+        <input type="text" matInput [(ngModel)]="data.description">
+    <!-- </mat-form-field> -->
+    <p>Date: </p>
+        <input type="date" matInput [(ngModel)]="data.setTime">
+</div>
+<div mat-dialog-actions>
+    <button mat-button (click)="createTask()">Create</button>
+    <button mat-button (click)="closeDiag()">Cancel</button>
+</div>
