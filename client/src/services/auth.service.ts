@@ -6,6 +6,8 @@ import * as firebase from 'firebase/app';
 import { Observable } from 'rxjs';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { MatSnackBar } from '@angular/material';
+import { FirebaseApp } from 'angularfire2';
+import { environment } from 'src/environments/environment';
 
 
 
@@ -27,14 +29,12 @@ export class AuthService {
               private router: Router,
               private snackbar: MatSnackBar) { 
     this.user = fAuth.authState;
-
   }
 
   emailSignUp(email: string, password: string) {
     this.fAuth.auth
       .createUserWithEmailAndPassword(email, password)
       .then(credential => {
-        let snackRef = this.snackbar.open("Registration Successful! Please login to your new account to proceed.")
         //create new user and stat object to add to firestore
         this.db.collection("users").doc(email).set({
             notification: false,
@@ -43,15 +43,27 @@ export class AuthService {
             TasksIncomplete: 0,
             startTime: firebase.firestore.FieldValue.serverTimestamp() //get Timestamp
         })
-        .then(result => {
-            console.log("new user added");
+
+        //send email verification link
+        credential.user.sendEmailVerification()
+        .then(function(){
+          //email was sent
+          console.log("email link sent to " + email);
         })
         .catch(error => {
-            console.log("error adding user");
-            console.log(error.message);
+          console.log("error occurred when sending email link");
+          console.log(error.message);
         });
-      })     
+
+        //notify user
+        let snackRef = this.snackbar.open("Registration Successful! Please check your email for a verification link");
+        //log response
+        console.log("new user added");
+
+      }) //end createUser then 
       .catch(error => {
+        console.log("error adding user");
+        console.log(error.message);
         var errorCode = error.code;
         if(errorCode === 'auth/email-already-in-use'){
           let snackRef = this.snackbar.open("Email already in use! Please try a different email.");
@@ -66,15 +78,35 @@ export class AuthService {
   }
 
   emailLogin(email: string, password: string) {
+    //check if user has verified their email address
+    var user = this.fAuth.auth.currentUser;
+    if(user != null){
+      if(!user.emailVerified){
+        let snackRef = this.snackbar.open("Email not verified. Please verify email address before logging in.");
+        return;
+      }
+    }
     this.fAuth.auth
       .signInWithEmailAndPassword(email, password)
       .then(credential => {
-        let snackRef = this.snackbar.open("Login Successful");
+        //check if email is verified before proceeding
+        if(credential.user.emailVerified){
+          let snackRef = this.snackbar.open("Login Successful");
+          this.router.navigateByUrl('/home');
+        }
+        else{
+          let snackRef = this.snackbar.open("Email not verified. Please verify email address before logging in.");
+          this.fAuth.auth.signOut()
+          .catch(error => {
+            console.log("error occured with sign out");
+            console.log(error.message);
+          });
+        }
       })
       .catch(error => {
         var errorCode = error.code;
-        if(errorCode === 'auth/user-not-found'){
-          let snackRef = this.snackbar.open("Email/Password do not match, try again!");
+        if((errorCode === "auth/user-not-found" || errorCode === "auth/wrong-password"){
+          let snackRef = this.snackbar.open("Email/Password do not match anything in our records, try again!");
         }
       });
   }

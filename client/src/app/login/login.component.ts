@@ -33,7 +33,6 @@ export class LoginComponent implements OnInit {
 
   onLogin(){
     this.mAuth.emailLogin(this.emailField, this.pswdField);
-    this.router.navigateByUrl("/home");
   }
 
   onReg(){
