@@ -3,33 +3,18 @@ import { Router } from '@angular/router';
 
 import { AngularFireAuth } from 'angularfire2/auth';
 import * as firebase from 'firebase/app';
-import { Observable } from 'rxjs';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { MatSnackBar } from '@angular/material';
-import { FirebaseApp } from 'angularfire2';
-import { environment } from 'src/environments/environment';
-
-
-
-interface User{
-  email: string;
-  //notification: number; ??
-  //TaskID?
-}
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class AuthService {
-  private user: Observable<firebase.User>;
-
   constructor(private fAuth: AngularFireAuth, 
               private db: AngularFirestore, 
               private router: Router,
-              private snackbar: MatSnackBar) { 
-    this.user = fAuth.authState;
-  }
+              private snackbar: MatSnackBar) { }
 
   emailSignUp(email: string, password: string) {
     this.fAuth.auth
