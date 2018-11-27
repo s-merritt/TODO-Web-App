@@ -27,6 +27,12 @@ export class LoginComponent implements OnInit {
       if(user.emailVerified){
         this.router.navigateByUrl('/home');
       }
+      else{
+        console.log("user not verified!");
+      }
+    }
+    else{
+      console.log("user not logged in for this session");
     }
    }
 

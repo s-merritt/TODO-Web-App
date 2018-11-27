@@ -9,12 +9,12 @@ import { AngularFirestore } from 'angularfire2/firestore';
 import * as firebase from 'firebase';
 import { AuthService } from 'src/services/auth.service';
 
-
 interface Task {
   description: string;
   setTime: Date;
   status: number;
   title: string;
+  weekday: number;
 }
 
 export interface TaskDialogData {
@@ -34,7 +34,10 @@ export class HomeComponent implements OnInit {
   setTimeF: Date;
   titleF: string;
 
-  displayedColumns: string[] = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  displayedColumns2: string[] = ['position', 'name', 'weight', 'symbol'];
+
+
+  displayedColumns: string[] = ['sundayTasks', 'mondayTasks', 'tuesdayTasks', 'wednesdayTasks', 'thursdayTasks', 'fridayTasks', 'saturdayTasks'];
   AllTasks:Task[] = [];
   sundayTasks: Task[] = [];
   mondayTasks: Task[] = [];
@@ -54,7 +57,9 @@ export class HomeComponent implements OnInit {
     //don't allow users who aren't logged in to access this page
     var user = this.mAuth.auth.currentUser;
     if (user == null) {
+      console.log("user not logged in, re-routing");
       this.router.navigateByUrl('/login');
+      return;
     }
     this.getTasks();
   }
@@ -69,9 +74,15 @@ export class HomeComponent implements OnInit {
         title: this.titleF
       }
     });
+    dialogRef.afterClosed().subscribe(result =>{
+      this.getTasks();
+    });
   }
 
   getTasks() {
+    //clear lists to prevent duplication
+    this.clearTaskLists();
+
     var userDocRef = this.db.collection("users").doc(this.mAuth.auth.currentUser.email);
     userDocRef.get().subscribe(result => {
       if (result.exists) {
@@ -86,14 +97,45 @@ export class HomeComponent implements OnInit {
               //create local Task object from result
               const task: Task = {
                 description: result.get("description"),
-                setTime: result.get("setTime"),
+                setTime: new Date(result.get("setTime")), //re-create date object
                 status: result.get("status"),
-                title: result.get("title")
+                title: result.get("title"),
+                weekday: result.get("day")
               };
 
               console.log(task);
               this.AllTasks.push(task);
               //TODO parse task and display on page
+              switch (task.weekday) {
+                case 0:  //monday
+                  this.mondayTasks.push(task);
+                  break;
+                case 1:  //tuesday
+                  this.tuesdayTasks.push(task);
+                  break;
+                case 2:  //wednesday
+                  this.wednesdayTasks.push(task);
+                  break;
+                case 3:  //thursday
+                  this.thursdayTasks.push(task);
+                  break;
+                case 4:  //friday
+                  this.fridayTasks.push(task);
+                  break;
+                case 5:  //saturday
+                  this.saturdayTasks.push(task);
+                  break;
+                case 6:  //sunday
+                  console.log(this.sundayTasks);
+                  if(this.sundayTasks.indexOf(task) < 0){
+                    console.log(this.sundayTasks.indexOf(task))
+                    this.sundayTasks.push(task);
+                  }
+                  break;
+                default: //error
+                  console.log("ERROR: invalid number for weekday");
+              }
+
             }
             else {
               console.log("could not find taskID: " + taskID);
@@ -105,6 +147,17 @@ export class HomeComponent implements OnInit {
         console.log("could not find user doc");
       }
     });
+  }
+
+  clearTaskLists(){
+    this.AllTasks = [];
+    this.sundayTasks = [];
+    this.mondayTasks = [];
+    this.tuesdayTasks = [];
+    this.wednesdayTasks = [];
+    this.thursdayTasks = [];
+    this.fridayTasks = [];
+    this.saturdayTasks = [];
   }
 
   logout() {
@@ -128,7 +181,8 @@ export class TaskDialog {
       description: this.data.description,
       setTime: this.data.setTime,
       title: this.data.title,
-      status: 0
+      status: 0,
+      weekday: new Date(this.data.setTime).getDay()
     };
 
     var count = 0;
@@ -141,7 +195,8 @@ export class TaskDialog {
           description: task.description,
           setTime: task.setTime,
           title: task.title,
-          status: task.status
+          status: task.status,
+          day: task.weekday
         })
           .then(result => {
             console.log("Task successfully added to Firestore")
@@ -175,6 +230,7 @@ export class TaskDialog {
 
   closeDiag() {
     this.dialogRef.close();
+    getTasks();
   }
 
 }
