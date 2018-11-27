@@ -21,7 +21,9 @@ import { MatDialogModule,
         MatFormFieldModule,
         MatSnackBarModule,
         MatTableModule,
-        MatCardModule } from '@angular/material';
+        MatCardModule,
+        MatExpansionModule
+       } from '@angular/material';
 
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import {ScrollingModule} from '@angular/cdk/scrolling';
@@ -44,7 +46,7 @@ const appRoutes: Routes = [
     ProfileComponent,
     NavigationComponent,
     LoginDialog,
-    TaskDialog
+    TaskDialog,
   ],
   imports: [
     BrowserModule,
@@ -63,7 +65,8 @@ const appRoutes: Routes = [
     DragDropModule,
     ScrollingModule,
     BrowserAnimationsModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatExpansionModule
   ],
   entryComponents: [LoginDialog, TaskDialog],
   providers: [AuthService],

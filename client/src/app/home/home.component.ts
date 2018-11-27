@@ -160,6 +160,8 @@ export class HomeComponent implements OnInit {
     this.saturdayTasks = [];
   }
 
+  t
+
   logout() {
     //sign out and redirect to login page
     this.mAuth.auth.signOut();
@@ -216,6 +218,7 @@ export class TaskDialog {
           .then(result => {
             console.log("task added successfully to user's list in Firestore");
             let snackRef = this.snackbar.open("Task Created!");
+            this.closeDiag();
           })
           .catch(error => {
             console.log("error when adding task to firestore");
