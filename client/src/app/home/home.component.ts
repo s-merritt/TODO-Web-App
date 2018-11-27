@@ -230,7 +230,6 @@ export class TaskDialog {
 
   closeDiag() {
     this.dialogRef.close();
-    getTasks();
   }
 
 }
