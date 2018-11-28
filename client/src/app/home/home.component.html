@@ -1,118 +1,133 @@
 <div class="container">
-  <button (click)="createTask()">Create Task</button>
-  <button (click)="logout()">Logout</button>
+  <div class="button_box">
+    <button (click)="createTask()" class="home_button">Create Task</button>
+    <button (click)="logout()" class="home_button">Logout</button>
+  </div>
+
+  <div class="week_box">
+    <div class="weekday_box">
+      <h3>Sunday</h3>
+      <mat-accordion>
+        <mat-expansion-panel *ngFor="let task of sundayTasks">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <span>{{task.title}}</span>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <p>{{task.description}}</p>
+          <mat-checkbox [(ngModel)]="task.status" (click)="updateStatus(task)">Completed</mat-checkbox>
+
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+
+    <div class="weekday_box">
+      <h3>Monday</h3>
+      <mat-accordion>
+        <mat-expansion-panel *ngFor="let task of mondayTasks">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <span>{{task.title}}</span>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <p>{{task.description}}</p>
+          <mat-checkbox [(ngModel)]="task.status" (click)="updateStatus(task)">Completed</mat-checkbox>
+
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+
+    <div class="weekday_box">
+      <h3>Tuesday</h3>
+      <mat-accordion>
+        <mat-expansion-panel *ngFor="let task of tuesdayTasks">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <span>{{task.title}}</span>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <p>{{task.description}}</p>
+          <mat-checkbox [(ngModel)]="task.status" (click)="updateStatus(task)">Completed</mat-checkbox>
 
 
-  <h2>Sunday</h2>
-  <mat-accordion>
-    <mat-expansion-panel *ngFor="let task of sundayTasks">
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-          <span>{{task.title}}</span>
-        </mat-panel-title>
-      </mat-expansion-panel-header>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
 
-      <p>{{task.description}}</p>
-      <mat-checkbox [(ngModel)]="task.status" (click)="updateStatus(task)">Completed</mat-checkbox>
+    <div class="weekday_box">
+      <h3>Wednesday</h3>
+      <mat-accordion>
+        <mat-expansion-panel *ngFor="let task of wednesdayTasks">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <span>{{task.title}}</span>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
 
-    </mat-expansion-panel>
-  </mat-accordion>
-
-  <h2>Monday</h2>
-  <mat-accordion>
-    <mat-expansion-panel *ngFor="let task of mondayTasks">
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-          <span>{{task.title}}</span>
-        </mat-panel-title>
-      </mat-expansion-panel-header>
-
-      <p>{{task.description}}</p>
-      <mat-checkbox [(ngModel)]="task.status" (click)="updateStatus(task)">Completed</mat-checkbox>
-
-    </mat-expansion-panel>
-  </mat-accordion>
-
-  <h2>Tuesday</h2>
-  <mat-accordion>
-    <mat-expansion-panel *ngFor="let task of tuesdayTasks">
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-          <span>{{task.title}}</span>
-        </mat-panel-title>
-      </mat-expansion-panel-header>
-
-      <p>{{task.description}}</p>
-      <mat-checkbox [(ngModel)]="task.status" (click)="updateStatus(task)">Completed</mat-checkbox>
+          <p>{{task.description}}</p>
+          <mat-checkbox [(ngModel)]="task.status" (click)="updateStatus(task)">Completed</mat-checkbox>
 
 
-    </mat-expansion-panel>
-  </mat-accordion>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
 
-  <h2>Wednesday</h2>
-  <mat-accordion>
-    <mat-expansion-panel *ngFor="let task of wednesdayTasks">
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-          <span>{{task.title}}</span>
-        </mat-panel-title>
-      </mat-expansion-panel-header>
+    <div class="weekday_box">
+      <h3>Thursday</h3>
+      <mat-accordion>
+        <mat-expansion-panel *ngFor="let task of thursdayTasks">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <span>{{task.title}}</span>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
 
-      <p>{{task.description}}</p>
-      <mat-checkbox [(ngModel)]="task.status" (click)="updateStatus(task)">Completed</mat-checkbox>
-
-
-    </mat-expansion-panel>
-  </mat-accordion>
-
-  <h2>Thursday</h2>
-  <mat-accordion>
-    <mat-expansion-panel *ngFor="let task of thursdayTasks">
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-          <span>{{task.title}}</span>
-        </mat-panel-title>
-      </mat-expansion-panel-header>
-
-      <p>{{task.description}}</p>
-      <mat-checkbox [(ngModel)]="task.status" (click)="updateStatus(task)">Completed</mat-checkbox>
+          <p>{{task.description}}</p>
+          <mat-checkbox [(ngModel)]="task.status" (click)="updateStatus(task)">Completed</mat-checkbox>
 
 
-    </mat-expansion-panel>
-  </mat-accordion>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
 
-  <h2>Friday</h2>
-  <mat-accordion>
-    <mat-expansion-panel *ngFor="let task of fridayTasks">
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-          <span>{{task.title}}</span>
-        </mat-panel-title>
-      </mat-expansion-panel-header>
+    <div class="weekday_box">
+      <h3>Friday</h3>
+      <mat-accordion>
+        <mat-expansion-panel *ngFor="let task of fridayTasks">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <span>{{task.title}}</span>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
 
-      <p>{{task.description}}</p>
-      <mat-checkbox [(ngModel)]="task.status" (click)="updateStatus(task)">Completed</mat-checkbox>
-
-
-    </mat-expansion-panel>
-  </mat-accordion>
-
-  <h2>Saturday</h2>
-  <mat-accordion>
-    <mat-expansion-panel *ngFor="let task of saturdayTasks">
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-          <span>{{task.title}}</span>
-        </mat-panel-title>
-      </mat-expansion-panel-header>
-
-      <p>{{task.description}}</p>
-      <mat-checkbox [(ngModel)]="task.status" (click)="updateStatus(task)">Completed</mat-checkbox>
+          <p>{{task.description}}</p>
+          <mat-checkbox [(ngModel)]="task.status" (click)="updateStatus(task)">Completed</mat-checkbox>
 
 
-    </mat-expansion-panel>
-  </mat-accordion>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+
+    <div class="weekday_box">
+      <h3>Saturday</h3>
+      <mat-accordion>
+        <mat-expansion-panel *ngFor="let task of saturdayTasks">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <span>{{task.title}}</span>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <p>{{task.description}}</p>
+          <mat-checkbox [(ngModel)]="task.status" (click)="updateStatus(task)">Completed</mat-checkbox>
 
 
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+  </div>
 
 </div>

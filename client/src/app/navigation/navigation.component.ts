@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ThrowStmt } from '@angular/compiler';
+import { AngularFireAuth } from 'angularfire2/auth';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-navigation',
@@ -8,8 +9,25 @@ import { ThrowStmt } from '@angular/compiler';
   styleUrls: ['./navigation.component.css']
 })
 export class NavigationComponent implements OnInit {
+  isLoggedIn: boolean = false;
 
-  constructor(private router: Router) { }
+  constructor(private mAuth: AuthService, public router: Router, private fAuth: AngularFireAuth) {
+    var user = this.fAuth.auth.currentUser;
+    if(user != null){
+      if(user.emailVerified){
+        console.log("user logged in and verified!");
+        this.isLoggedIn = true;
+      }
+      else{
+        console.log("user not verified!");
+        this.isLoggedIn = false;
+      }
+    }
+    else{
+      console.log("user not logged in for this session");
+      this.isLoggedIn = false;
+    }
+   }
 
   ngOnInit() {
   }
@@ -18,11 +36,8 @@ export class NavigationComponent implements OnInit {
     this.router.navigateByUrl('/home');
   }
 
-  login(){
-    this.router.navigateByUrl('/login');
-  }
-
   profile(){
     this.router.navigateByUrl('/profile');
   }
+
 }

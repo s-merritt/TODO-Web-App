@@ -1,4 +1,7 @@
-<h2>Navigation</h2>
-<button (click)="home()">Home</button>
-<button (click)="profile()">Profile</button>
-<button (click)="login()">Login</button>
+<mat-toolbar>
+    <div class="container">
+        <h2>Navigation</h2>
+        <button *ngIf="isLoggedIn" (click)="home()" class="login_button" id="home">Home</button>
+        <button *ngIf="isLoggedIn" (click)="profile()" class="login_button" id="profile">Profile</button>
+    </div>
+</mat-toolbar>
