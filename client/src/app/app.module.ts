@@ -22,7 +22,8 @@ import { MatDialogModule,
         MatSnackBarModule,
         MatTableModule,
         MatCardModule,
-        MatExpansionModule
+        MatExpansionModule,
+        MatCheckboxModule
        } from '@angular/material';
 
 import {DragDropModule} from '@angular/cdk/drag-drop';
@@ -66,7 +67,8 @@ const appRoutes: Routes = [
     ScrollingModule,
     BrowserAnimationsModule,
     MatSnackBarModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatCheckboxModule
   ],
   entryComponents: [LoginDialog, TaskDialog],
   providers: [AuthService],

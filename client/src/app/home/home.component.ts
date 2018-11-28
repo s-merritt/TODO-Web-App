@@ -10,6 +10,7 @@ import * as firebase from 'firebase';
 import { AuthService } from 'src/services/auth.service';
 
 interface Task {
+  ID: string;
   description: string;
   setTime: Date;
   status: number;
@@ -38,7 +39,7 @@ export class HomeComponent implements OnInit {
 
 
   displayedColumns: string[] = ['sundayTasks', 'mondayTasks', 'tuesdayTasks', 'wednesdayTasks', 'thursdayTasks', 'fridayTasks', 'saturdayTasks'];
-  AllTasks:Task[] = [];
+  AllTasks: Task[] = [];
   sundayTasks: Task[] = [];
   mondayTasks: Task[] = [];
   tuesdayTasks: Task[] = [];
@@ -51,7 +52,7 @@ export class HomeComponent implements OnInit {
   constructor(private mAuth: AngularFireAuth,
     private router: Router,
     private db: AngularFirestore,
-    public dialog: MatDialog) {}
+    public dialog: MatDialog) { }
 
   ngOnInit() {
     //don't allow users who aren't logged in to access this page
@@ -74,7 +75,7 @@ export class HomeComponent implements OnInit {
         title: this.titleF
       }
     });
-    dialogRef.afterClosed().subscribe(result =>{
+    dialogRef.afterClosed().subscribe(result => {
       this.getTasks();
     });
   }
@@ -96,6 +97,7 @@ export class HomeComponent implements OnInit {
             if (result.exists) {
               //create local Task object from result
               const task: Task = {
+                ID: taskID,
                 description: result.get("description"),
                 setTime: new Date(result.get("setTime")), //re-create date object
                 status: result.get("status"),
@@ -127,7 +129,7 @@ export class HomeComponent implements OnInit {
                   break;
                 case 6:  //sunday
                   console.log(this.sundayTasks);
-                  if(this.sundayTasks.indexOf(task) < 0){
+                  if (this.sundayTasks.indexOf(task) < 0) {
                     console.log(this.sundayTasks.indexOf(task))
                     this.sundayTasks.push(task);
                   }
@@ -149,7 +151,7 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  clearTaskLists(){
+  clearTaskLists() {
     this.AllTasks = [];
     this.sundayTasks = [];
     this.mondayTasks = [];
@@ -160,7 +162,21 @@ export class HomeComponent implements OnInit {
     this.saturdayTasks = [];
   }
 
-  t
+  updateStatus(task: Task) {
+    var curStatus = task.status;
+    var newStatus = 0;
+
+    if (curStatus == 1)
+      newStatus = 0;
+    else if (curStatus == 0)
+      newStatus = 1;
+
+    //update status of that task in DB
+    this.db.collection("tasks").doc(task.ID).set({
+      status: newStatus
+    }, {merge: true});
+
+  }
 
   logout() {
     //sign out and redirect to login page
@@ -178,21 +194,24 @@ export class TaskDialog {
     @Inject(MAT_DIALOG_DATA) public data: TaskDialogData, public snackbar: MatSnackBar, public db: AngularFirestore, public mAuth: AuthService) { }
 
   createTask() {
-    //create Task object with data form dialog
-    const task: Task = {
-      description: this.data.description,
-      setTime: this.data.setTime,
-      title: this.data.title,
-      status: 0,
-      weekday: new Date(this.data.setTime).getDay()
-    };
-
     var count = 0;
     this.db.collection("tasks").get().subscribe(result => {
       if (result != null) {
         count = result.size;
+
         //add task to Firestore, ID will be [email + taskIDs.length]    
         const taskID: string = this.mAuth.getEmail() + count;
+        
+        //create Task object with data form dialog
+        const task: Task = {
+          ID: taskID,
+          description: this.data.description,
+          setTime: this.data.setTime,
+          title: this.data.title,
+          status: 0,
+          weekday: new Date(this.data.setTime).getDay()
+        };
+
         this.db.collection("tasks").doc(taskID).set({
           description: task.description,
           setTime: task.setTime,
@@ -214,7 +233,7 @@ export class TaskDialog {
         //make sure to add TaskID to user's list of TaskIDs
         this.db.collection("users").doc(this.mAuth.getEmail()).set({
           TaskIDs: firebase.firestore.FieldValue.arrayUnion(taskID)
-        }, {merge: true}) //set merge to true so we don't lose other fields
+        }, { merge: true }) //set merge to true so we don't lose other fields
           .then(result => {
             console.log("task added successfully to user's list in Firestore");
             let snackRef = this.snackbar.open("Task Created!");
