@@ -12,11 +12,14 @@ import { SharedService } from './shared.service';
 })
 
 export class AuthService {
+
   constructor(private fAuth: AngularFireAuth, 
               private db: AngularFirestore, 
               private router: Router,
               private snackbar: MatSnackBar,
-              private ss: SharedService) { }
+              private ss: SharedService) { 
+                console.log("starting up auth service");
+              }
 
   emailSignUp(email: string, password: string) {
     this.fAuth.auth
@@ -71,6 +74,8 @@ export class AuthService {
       if(!user.emailVerified){
         let snackRef = this.snackbar.open("Email not verified. Please verify email address before logging in.");
         return;
+      }
+      else{
       }
     }
     this.fAuth.auth

@@ -5,7 +5,7 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import { Router } from '@angular/router';
 import { SharedService } from 'src/services/shared.service';
 
-export interface DialogData{
+export interface DialogData {
   email: string;
   password: string;
   password2: string;
@@ -23,44 +23,34 @@ export class LoginComponent implements OnInit {
   newEmail: string;
   newPass: string;
 
-  constructor(private ss: SharedService, private mAuth: AuthService, public dialog: MatDialog, public router: Router, private fAuth: AngularFireAuth) {
-    var user = this.fAuth.auth.currentUser;
-    if(user != null){
-      if(user.emailVerified){
-        this.router.navigateByUrl('/home');
-        this.ss.change();
-      }
-      else{
-        console.log("user not verified!");
-      }
-    }
-    else{
-      console.log("user not logged in for this session");
-    }
-   }
+  constructor(private ss: SharedService, private mAuth: AuthService, public dialog: MatDialog, public router: Router, private fAuth: AngularFireAuth) { }
 
   ngOnInit() {
     //if already logged in, redirect to home page
-    var user = this.fAuth.auth.currentUser;
-    if(user != null){
-      if(user.emailVerified){
+    this.fAuth.auth.onAuthStateChanged(function(user) {
+      if(user){
         this.router.navigateByUrl('/home');
         this.ss.change();
+        console.log("user already logged in for this session");
       }
-    }
+      else{
+        console.log("user not logged in for this session yet");
+
+      }
+    }.bind(this));
   }
 
-  onLogin(){
+  onLogin() {
     this.mAuth.emailLogin(this.emailField, this.pswdField);
   }
 
-  onReg(){
+  onReg() {
     //create dialog box
     let dialogRef = this.dialog.open(LoginDialog, {
       height: '300px',
       width: '300px',
-      data: {email: this.newEmail, password: this.newPass}
-    });   
+      data: { email: this.newEmail, password: this.newPass }
+    });
   }
 
 }
@@ -72,23 +62,23 @@ export class LoginComponent implements OnInit {
 export class LoginDialog {
   private isValid: boolean;
 
-  constructor(public mAuth: AuthService, 
-              public dialogRef: MatDialogRef<LoginDialog>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData){
-      this.isValid = true;
-    }
+  constructor(public mAuth: AuthService,
+    public dialogRef: MatDialogRef<LoginDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData) {
+    this.isValid = true;
+  }
 
-  attemptReg(){
-    if(this.data.password != this.data.password2){
+  attemptReg() {
+    if (this.data.password != this.data.password2) {
       this.isValid = false;
     }
-    else{
+    else {
       this.isValid = true;
       this.mAuth.emailSignUp(this.data.email, this.data.password);
     }
   }
 
-  closeDiag(){
+  closeDiag() {
     this.dialogRef.close();
   }
 }

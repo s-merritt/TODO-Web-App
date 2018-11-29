@@ -8,6 +8,7 @@ import { MatSnackBar } from '@angular/material';
 import { AngularFirestore } from 'angularfire2/firestore';
 import * as firebase from 'firebase';
 import { AuthService } from 'src/services/auth.service';
+import { SharedService } from 'src/services/shared.service';
 
 interface Task {
   ID: string;
@@ -46,17 +47,23 @@ export class HomeComponent implements OnInit {
   constructor(private fAuth: AngularFireAuth,
     private router: Router,
     private db: AngularFirestore,
-    public dialog: MatDialog) { }
+    public dialog: MatDialog,
+    public ss: SharedService) { }
 
   ngOnInit() {
     //don't allow users who aren't logged in to access this page
-    var user = this.fAuth.auth.currentUser;
-    if (user == null) {
-      console.log("user not logged in, re-routing");
-      this.router.navigateByUrl('/login');
-      return;
-    }
-    this.getTasks();
+    this.fAuth.auth.onAuthStateChanged(function (user) {
+      if (user) {
+        console.log("user logged in, continuing");
+        this.getTasks();
+        this.ss.change();
+    
+      }
+      else {
+        console.log("user not logged in, re-routing");
+        this.router.navigateByUrl('/login');
+      }
+    }.bind(this));
   }
 
   createTask() {
@@ -167,7 +174,7 @@ export class HomeComponent implements OnInit {
     //update status of that task in DB
     this.db.collection("tasks").doc(task.ID).set({
       status: newStatus
-    }, {merge: true});
+    }, { merge: true });
 
   }
 }
@@ -190,7 +197,7 @@ export class TaskDialog {
 
         //add task to Firestore, ID will be [email + taskIDs.length]    
         const taskID: string = this.fAuth.getEmail() + count;
-        
+
         //create Task object with data form dialog
         const task: Task = {
           ID: taskID,
