@@ -8,6 +8,7 @@ import { SharedService } from 'src/services/shared.service';
 export interface DialogData{
   email: string;
   password: string;
+  password2: string;
 }
 
 @Component({
@@ -69,13 +70,22 @@ export class LoginComponent implements OnInit {
   templateUrl: 'dialog.html'
 })
 export class LoginDialog {
+  private isValid: boolean;
+
   constructor(public mAuth: AuthService, 
               public dialogRef: MatDialogRef<LoginDialog>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData){
+      this.isValid = true;
     }
 
   attemptReg(){
-    this.mAuth.emailSignUp(this.data.email, this.data.password);
+    if(this.data.password != this.data.password2){
+      this.isValid = false;
+    }
+    else{
+      this.isValid = true;
+      this.mAuth.emailSignUp(this.data.email, this.data.password);
+    }
   }
 
   closeDiag(){

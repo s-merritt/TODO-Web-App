@@ -12,7 +12,6 @@ import { AuthService } from 'src/services/auth.service';
 interface Task {
   ID: string;
   description: string;
-  setTime: Date;
   status: number;
   title: string;
   weekday: number;
@@ -20,8 +19,8 @@ interface Task {
 
 export interface TaskDialogData {
   description: string,
-  setTime: Date,
-  title: string;
+  title: string,
+  day: number;
 }
 
 @Component({
@@ -32,13 +31,9 @@ export interface TaskDialogData {
 export class HomeComponent implements OnInit {
   //Fields
   descF: string;
-  setTimeF: Date;
   titleF: string;
+  setDayF: number;
 
-  displayedColumns2: string[] = ['position', 'name', 'weight', 'symbol'];
-
-
-  displayedColumns: string[] = ['sundayTasks', 'mondayTasks', 'tuesdayTasks', 'wednesdayTasks', 'thursdayTasks', 'fridayTasks', 'saturdayTasks'];
   AllTasks: Task[] = [];
   sundayTasks: Task[] = [];
   mondayTasks: Task[] = [];
@@ -47,7 +42,6 @@ export class HomeComponent implements OnInit {
   thursdayTasks: Task[] = [];
   fridayTasks: Task[] = [];
   saturdayTasks: Task[] = [];
-
 
   constructor(private fAuth: AngularFireAuth,
     private router: Router,
@@ -71,8 +65,8 @@ export class HomeComponent implements OnInit {
       width: '500px',
       data: {
         description: this.descF,
-        setTime: this.setTimeF,
-        title: this.titleF
+        title: this.titleF,
+        day: this.setDayF
       }
     });
     dialogRef.afterClosed().subscribe(result => {
@@ -99,7 +93,6 @@ export class HomeComponent implements OnInit {
               const task: Task = {
                 ID: taskID,
                 description: result.get("description"),
-                setTime: new Date(result.get("setTime")), //re-create date object
                 status: result.get("status"),
                 title: result.get("title"),
                 weekday: result.get("day")
@@ -181,7 +174,9 @@ export class HomeComponent implements OnInit {
 
 @Component({
   selector: 'task-dialog',
-  templateUrl: 'TaskDialog.html'
+  templateUrl: 'TaskDialog.html',
+  styleUrls: ['./TaskDialog.css']
+
 })
 export class TaskDialog {
   constructor(public dialogRef: MatDialogRef<TaskDialog>,
@@ -200,15 +195,13 @@ export class TaskDialog {
         const task: Task = {
           ID: taskID,
           description: this.data.description,
-          setTime: this.data.setTime,
           title: this.data.title,
           status: 0,
-          weekday: new Date(this.data.setTime).getDay()
+          weekday: this.data.day
         };
 
         this.db.collection("tasks").doc(taskID).set({
           description: task.description,
-          setTime: task.setTime,
           title: task.title,
           status: task.status,
           day: task.weekday

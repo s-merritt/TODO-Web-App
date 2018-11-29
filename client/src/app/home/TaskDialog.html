@@ -1,17 +1,28 @@
 <h1 mat-dialog-title>Create Task</h1>
-<div mat-dialog-content>
-    <p>Title: </p>
-    <!-- <mat-form-field> -->
-        <input type="text" matInput [(ngModel)]="data.title">
-    <!-- </mat-form-field> -->
-    <p>Description: </p>
-   <!--- <mat-form-field> -->
-        <input type="text" matInput [(ngModel)]="data.description">
-    <!-- </mat-form-field> -->
-    <p>Date: </p>
-        <input type="date" matInput [(ngModel)]="data.setTime">
+<div mat-dialog-content class="dialog_box">
+    <mat-form-field>
+        <mat-label>Title</mat-label>
+        <input matInput type="text" matInput [(ngModel)]="data.title" required>
+        <mat-hint>What do you want to call this task?</mat-hint>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Description</mat-label>
+        <textarea matInput type="text" matInput [(ngModel)]="data.description"></textarea>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Weekday</mat-label>
+        <mat-select [(value)]="data.day">
+            <mat-option value="6">Sunday</mat-option>
+            <mat-option value="0">Monday</mat-option>
+            <mat-option value="1">Tuesday</mat-option>
+            <mat-option value="2">Wednesday</mat-option>
+            <mat-option value="3">Thursday</mat-option>
+            <mat-option value="4">Friday</mat-option>
+            <mat-option value="5">Saturday</mat-option>
+        </mat-select>
+    </mat-form-field>
 </div>
-<div mat-dialog-actions>
+<div mat-dialog-actions class="button_box">
     <button mat-button (click)="createTask()">Create</button>
     <button mat-button (click)="closeDiag()">Cancel</button>
 </div>

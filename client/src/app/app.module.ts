@@ -25,7 +25,9 @@ import { MatDialogModule,
         MatExpansionModule,
         MatCheckboxModule,
         MatToolbarModule,
-        MatSidenavModule
+        MatSidenavModule,
+        MatInputModule,
+        MatSelectModule
        } from '@angular/material';
 
 import {DragDropModule} from '@angular/cdk/drag-drop';
@@ -72,7 +74,9 @@ const appRoutes: Routes = [
     MatExpansionModule,
     MatCheckboxModule,
     MatToolbarModule,
-    MatSidenavModule
+    MatSidenavModule,
+    MatInputModule,
+    MatSelectModule
   ],
   entryComponents: [LoginDialog, TaskDialog],
   providers: [AuthService],
