@@ -18,12 +18,16 @@ button.home_button:hover{
 }
 
 div.week_box{
-    min-width: 1000px;
+    border: solid;
+    background: #7f7f7f;
+    min-width: 90vw;
     height: auto;
-    overflow-x: auto;
+    overflow-x: visible;
     overflow-y: hidden;
     white-space:nowrap;
-
+    margin: 50px;
+    min-height: 50vh;
+    padding: 5px;
 }
 
 div.weekday_box{
@@ -32,13 +36,35 @@ div.weekday_box{
     *display:inline;/* For IE7*/
     *zoom:1;/* For IE7*/
     vertical-align:top;
-    min-width: 250px;
-    max-width: 250px;
+    min-width: 200px;
+    width: 14.05%;
     margin: 2px;
+    text-align: center;
+    /*border: solid;*/
 }
 div.weekday_box::after{
     content: "";
     clear: both;
     display: table;
 }
+/*
+.mat-expansion-panel-header{
+    background: blue;
+}
+.mat-expansion-panel.mat-expanded,
+.mat-expansion-panel.mat-expanded:hover {
+    background: red;
+  }
 
+.checkedStyle{
+    background: green;
+}
+
+.uncheckedStyle{
+    background: orange;
+}
+*/
+
+::ng-deep mat-expansion-panel-header.sundayTest {
+    background: green;
+}
