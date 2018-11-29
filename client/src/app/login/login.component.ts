@@ -3,6 +3,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { AuthService } from '../../services/auth.service';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { Router } from '@angular/router';
+import { SharedService } from 'src/services/shared.service';
 
 export interface DialogData{
   email: string;
@@ -21,11 +22,12 @@ export class LoginComponent implements OnInit {
   newEmail: string;
   newPass: string;
 
-  constructor(private mAuth: AuthService, public dialog: MatDialog, public router: Router, private fAuth: AngularFireAuth) {
+  constructor(private ss: SharedService, private mAuth: AuthService, public dialog: MatDialog, public router: Router, private fAuth: AngularFireAuth) {
     var user = this.fAuth.auth.currentUser;
     if(user != null){
       if(user.emailVerified){
         this.router.navigateByUrl('/home');
+        this.ss.change();
       }
       else{
         console.log("user not verified!");
@@ -42,6 +44,7 @@ export class LoginComponent implements OnInit {
     if(user != null){
       if(user.emailVerified){
         this.router.navigateByUrl('/home');
+        this.ss.change();
       }
     }
   }

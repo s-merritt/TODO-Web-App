@@ -49,14 +49,14 @@ export class HomeComponent implements OnInit {
   saturdayTasks: Task[] = [];
 
 
-  constructor(private mAuth: AngularFireAuth,
+  constructor(private fAuth: AngularFireAuth,
     private router: Router,
     private db: AngularFirestore,
     public dialog: MatDialog) { }
 
   ngOnInit() {
     //don't allow users who aren't logged in to access this page
-    var user = this.mAuth.auth.currentUser;
+    var user = this.fAuth.auth.currentUser;
     if (user == null) {
       console.log("user not logged in, re-routing");
       this.router.navigateByUrl('/login');
@@ -84,7 +84,7 @@ export class HomeComponent implements OnInit {
     //clear lists to prevent duplication
     this.clearTaskLists();
 
-    var userDocRef = this.db.collection("users").doc(this.mAuth.auth.currentUser.email);
+    var userDocRef = this.db.collection("users").doc(this.fAuth.auth.currentUser.email);
     userDocRef.get().subscribe(result => {
       if (result.exists) {
         console.log("found user doc");
@@ -177,12 +177,6 @@ export class HomeComponent implements OnInit {
     }, {merge: true});
 
   }
-
-  logout() {
-    //sign out and redirect to login page
-    this.mAuth.auth.signOut();
-    this.router.navigateByUrl('/login');
-  }
 }
 
 @Component({
@@ -191,7 +185,7 @@ export class HomeComponent implements OnInit {
 })
 export class TaskDialog {
   constructor(public dialogRef: MatDialogRef<TaskDialog>,
-    @Inject(MAT_DIALOG_DATA) public data: TaskDialogData, public snackbar: MatSnackBar, public db: AngularFirestore, public mAuth: AuthService) { }
+    @Inject(MAT_DIALOG_DATA) public data: TaskDialogData, public snackbar: MatSnackBar, public db: AngularFirestore, public fAuth: AuthService) { }
 
   createTask() {
     var count = 0;
@@ -200,7 +194,7 @@ export class TaskDialog {
         count = result.size;
 
         //add task to Firestore, ID will be [email + taskIDs.length]    
-        const taskID: string = this.mAuth.getEmail() + count;
+        const taskID: string = this.fAuth.getEmail() + count;
         
         //create Task object with data form dialog
         const task: Task = {
@@ -231,7 +225,7 @@ export class TaskDialog {
           });
 
         //make sure to add TaskID to user's list of TaskIDs
-        this.db.collection("users").doc(this.mAuth.getEmail()).set({
+        this.db.collection("users").doc(this.fAuth.getEmail()).set({
           TaskIDs: firebase.firestore.FieldValue.arrayUnion(taskID)
         }, { merge: true }) //set merge to true so we don't lose other fields
           .then(result => {

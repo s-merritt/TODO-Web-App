@@ -5,6 +5,7 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import * as firebase from 'firebase/app';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { MatSnackBar } from '@angular/material';
+import { SharedService } from './shared.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,8 @@ export class AuthService {
   constructor(private fAuth: AngularFireAuth, 
               private db: AngularFirestore, 
               private router: Router,
-              private snackbar: MatSnackBar) { }
+              private snackbar: MatSnackBar,
+              private ss: SharedService) { }
 
   emailSignUp(email: string, password: string) {
     this.fAuth.auth
@@ -78,6 +80,7 @@ export class AuthService {
         if(credential.user.emailVerified){
           let snackRef = this.snackbar.open("Login Successful");
           this.router.navigateByUrl('/home');
+          this.ss.change(); //linked to navigation component to display buttons
         }
         else{
           let snackRef = this.snackbar.open("Email not verified. Please verify email address before logging in.");

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { SharedService } from 'src/services/shared.service';
 import { AngularFireAuth } from 'angularfire2/auth';
-import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-navigation',
@@ -9,27 +9,16 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: ['./navigation.component.css']
 })
 export class NavigationComponent implements OnInit {
-  isLoggedIn: boolean = false;
+  onLogin: Boolean;
 
-  constructor(private mAuth: AuthService, public router: Router, private fAuth: AngularFireAuth) {
-    var user = this.fAuth.auth.currentUser;
-    if(user != null){
-      if(user.emailVerified){
-        console.log("user logged in and verified!");
-        this.isLoggedIn = true;
-      }
-      else{
-        console.log("user not verified!");
-        this.isLoggedIn = false;
-      }
-    }
-    else{
-      console.log("user not logged in for this session");
-      this.isLoggedIn = false;
-    }
+  constructor(private ss: SharedService, public router: Router, private fAuth: AngularFireAuth) {
+    this.onLogin = false;
+    
    }
 
   ngOnInit() {
+    //subscrive onLogin to change when the user logs in and out
+    this.ss.getEmittedValue().subscribe(item => this.onLogin=item);
   }
 
   home(){
@@ -38,6 +27,13 @@ export class NavigationComponent implements OnInit {
 
   profile(){
     this.router.navigateByUrl('/profile');
+  }
+
+  logout() {
+    //sign out and redirect to login page
+    this.fAuth.auth.signOut();
+    this.ss.change(); //change onLogin
+    this.router.navigateByUrl('/login');
   }
 
 }
