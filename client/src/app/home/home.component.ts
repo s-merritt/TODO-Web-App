@@ -208,11 +208,15 @@ export class TaskDialog {
           weekday: this.data.day
         };
 
+        if(task.description == null){
+          task.description = "";
+        }
+
         this.db.collection("tasks").doc(taskID).set({
           description: task.description,
           title: task.title,
           status: task.status,
-          day: task.weekday
+          day: parseInt(task.weekday.toString()) //for some reason it isn't a number when it's added to firestore, this was the fix
         })
           .then(result => {
             console.log("Task successfully added to Firestore")
