@@ -1,23 +1,24 @@
-button.home_button{
-    background-color: #003399;
+button.home_button { 
+    background: #4e4e4e;
     border: none;
     color: white;
     padding: 15px 32px;
     text-align: center;
     text-decoration: none;
-    display: inline-block;
     font-size: 16px;
     margin: 4px 2px;
     cursor: pointer;
     -webkit-transition-duration: 0.4s; /* Safari */
     transition-duration: 0.4s;
+    float: left;
+    margin-left: 50px;
 }
 
-button.home_button:hover{
+button.home_button:hover {
     box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
 }
 
-div.week_box{
+div.week_box {
     border: solid;
     background: #7f7f7f;
     min-width: 90vw;
@@ -30,7 +31,7 @@ div.week_box{
     padding: 5px;
 }
 
-div.weekday_box{
+div.weekday_box {
     /*float: left;*/
     display:inline-block;
     *display:inline;/* For IE7*/
@@ -42,7 +43,7 @@ div.weekday_box{
     text-align: center;
     /*border: solid;*/
 }
-div.weekday_box::after{
+div.weekday_box::after {
     content: "";
     clear: both;
     display: table;
@@ -64,7 +65,3 @@ div.weekday_box::after{
     background: orange;
 }
 */
-
-::ng-deep mat-expansion-panel-header.sundayTest {
-    background: green;
-}

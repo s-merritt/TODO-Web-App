@@ -1,8 +1,4 @@
 <mat-sidenav-container style="height: calc(100vh - 20px)">
-    <div class="button_box">
-    <button (click)="createTask()" class="home_button">Create Task</button>
-  </div>
-
   <div class="week_box">
     <div class="weekday_box">
       <h3><u>Sunday</u></h3>
@@ -127,5 +123,8 @@
         </mat-expansion-panel>
       </mat-accordion>
     </div>
+  </div>
+  <div class="button_box">
+    <button mat-button (click)="createTask()" class="home_button">Create Task</button>
   </div>
 </mat-sidenav-container>
