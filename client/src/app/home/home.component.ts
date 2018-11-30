@@ -196,12 +196,12 @@ export class TaskDialog {
       if (result != null) {
         count = result.size;
 
-        //add task to Firestore, ID will be [email + taskIDs.length]    
-        const taskID: string = this.fAuth.getEmail() + count;
+        //add task to Firestore, ID will be randomly generated
+        var docID = this.db.createId();
 
         //create Task object with data form dialog
         const task: Task = {
-          ID: taskID,
+          ID: docID,
           description: this.data.description,
           title: this.data.title,
           status: 0,
@@ -211,8 +211,8 @@ export class TaskDialog {
         if(task.description == null){
           task.description = "";
         }
-
-        this.db.collection("tasks").doc(taskID).set({
+        var docID = this.db.createId();
+        this.db.collection("tasks").doc(docID).set({
           description: task.description,
           title: task.title,
           status: task.status,
@@ -231,7 +231,7 @@ export class TaskDialog {
 
         //make sure to add TaskID to user's list of TaskIDs
         this.db.collection("users").doc(this.fAuth.getEmail()).set({
-          TaskIDs: firebase.firestore.FieldValue.arrayUnion(taskID)
+          TaskIDs: firebase.firestore.FieldValue.arrayUnion(docID)
         }, { merge: true }) //set merge to true so we don't lose other fields
           .then(result => {
             console.log("task added successfully to user's list in Firestore");
