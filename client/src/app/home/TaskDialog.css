@@ -1,0 +1,11 @@
+div.dialog_box {
+    clear: both;
+}
+
+div.button_box {
+    clear: both;
+}
+
+mat-hint {
+    font-size: 7pt;
+}

@@ -1,0 +1,20 @@
+<h1 mat-dialog-title>Registration</h1>
+<div mat-dialog-content>
+    <mat-form-field>
+        <mat-label>Email address</mat-label>
+        <input matInput type="email" matInput [(ngModel)]="data.email">
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Password</mat-label>
+        <input matInput type="password" matInput [(ngModel)]="data.password">
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Confirm Password</mat-label>
+        <input matInput type="password" matInput [(ngModel)]="data.password2">
+    </mat-form-field>
+    <span *ngIf="!isValid">Passwords must match!</span>
+</div>
+<div mat-dialog-actions>
+    <button mat-button (click)="attemptReg()">Register</button>
+    <button mat-button (click)="closeDiag()">Cancel</button>
+</div>

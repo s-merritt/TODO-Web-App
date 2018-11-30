@@ -1,3 +1,130 @@
-<p>
-  home works!
-</p>
+<mat-sidenav-container style="height: calc(100vh - 20px)">
+  <div class="week_box">
+    <div class="weekday_box">
+      <h3><u>Sunday</u></h3>
+      <mat-accordion>
+        <mat-expansion-panel *ngFor="let task of sundayTasks">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <span>{{task.title}}</span>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <p>{{task.description}}</p>
+          <mat-checkbox [(ngModel)]="task.status" (click)="updateStatus(task)">Completed</mat-checkbox>
+
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+
+    <div class="weekday_box">
+      <h3><u>Monday</u></h3>
+      <mat-accordion>
+        <mat-expansion-panel *ngFor="let task of mondayTasks">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <span>{{task.title}}</span>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <p>{{task.description}}</p>
+          <mat-checkbox [(ngModel)]="task.status" (click)="updateStatus(task)">Completed</mat-checkbox>
+
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+
+    <div class="weekday_box">
+      <h3><u>Tuesday</u></h3>
+      <mat-accordion>
+        <mat-expansion-panel *ngFor="let task of tuesdayTasks">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <span>{{task.title}}</span>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <p>{{task.description}}</p>
+          <mat-checkbox [(ngModel)]="task.status" (click)="updateStatus(task)">Completed</mat-checkbox>
+
+
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+
+    <div class="weekday_box">
+      <h3><u>Wednesday</u></h3>
+      <mat-accordion>
+        <mat-expansion-panel *ngFor="let task of wednesdayTasks">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <span>{{task.title}}</span>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <p>{{task.description}}</p>
+          <mat-checkbox [(ngModel)]="task.status" (click)="updateStatus(task)">Completed</mat-checkbox>
+
+
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+
+    <div class="weekday_box">
+      <h3><u>Thursday</u></h3>
+      <mat-accordion>
+        <mat-expansion-panel *ngFor="let task of thursdayTasks">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <span>{{task.title}}</span>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <p>{{task.description}}</p>
+          <mat-checkbox [(ngModel)]="task.status" (click)="updateStatus(task)">Completed</mat-checkbox>
+
+
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+
+    <div class="weekday_box">
+      <h3><u>Friday</u></h3>
+      <mat-accordion>
+        <mat-expansion-panel *ngFor="let task of fridayTasks">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <span>{{task.title}}</span>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <p>{{task.description}}</p>
+          <mat-checkbox [(ngModel)]="task.status" (click)="updateStatus(task)">Completed</mat-checkbox>
+
+
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+
+    <div class="weekday_box">
+      <h3><u>Saturday</u></h3>
+      <mat-accordion>
+        <mat-expansion-panel *ngFor="let task of saturdayTasks">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <span>{{task.title}}</span>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <p>{{task.description}}</p>
+          <mat-checkbox [(ngModel)]="task.status" (click)="updateStatus(task)">Completed</mat-checkbox>
+
+
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+  </div>
+  <div class="button_box">
+    <button mat-button (click)="createTask()" class="home_button">Create Task</button>
+  </div>
+</mat-sidenav-container>
