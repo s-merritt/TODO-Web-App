@@ -35,7 +35,7 @@ export class HomeComponent implements OnInit {
   titleF: string;
   setDayF: number;
 
-  AllTasks: Task[] = [];
+  AllTasksIDs: string[] = [];
   sundayTasks: Task[] = [];
   mondayTasks: Task[] = [];
   tuesdayTasks: Task[] = [];
@@ -48,7 +48,9 @@ export class HomeComponent implements OnInit {
     private router: Router,
     private db: AngularFirestore,
     public dialog: MatDialog,
-    public ss: SharedService) { }
+    public ss: SharedService,
+    private mAuth: AuthService,
+    private snackbar: MatSnackBar) { }
 
   ngOnInit() {
     //don't allow users who aren't logged in to access this page
@@ -57,7 +59,7 @@ export class HomeComponent implements OnInit {
         console.log("user logged in, continuing");
         this.getTasks();
         this.ss.change();
-    
+
       }
       else {
         console.log("user not logged in, re-routing");
@@ -107,7 +109,7 @@ export class HomeComponent implements OnInit {
               };
 
               console.log(task);
-              this.AllTasks.push(task);
+              this.AllTasksIDs.push(task.ID);
               //TODO parse task and display on page
               switch (task.weekday) {
                 case 0:  //monday
@@ -153,7 +155,7 @@ export class HomeComponent implements OnInit {
   }
 
   clearTaskLists() {
-    this.AllTasks = [];
+    this.AllTasksIDs = [];
     this.sundayTasks = [];
     this.mondayTasks = [];
     this.tuesdayTasks = [];
@@ -176,6 +178,64 @@ export class HomeComponent implements OnInit {
     this.db.collection("tasks").doc(task.ID).set({
       status: newStatus
     }, { merge: true });
+
+  }
+
+  deleteTask(task: Task) {
+    var deleteID = task.ID;
+
+    //delete task from task collection
+    this.db.collection("tasks").doc(deleteID).delete()
+      .then(result => {
+        console.log("task succesfully deleted");
+      })
+      .catch(error => {
+        console.log("task was not deleted!");
+        console.log(error.code);
+      });
+
+    //remove taskID from user's list 
+    this.db.collection("users").doc(this.mAuth.getEmail()).update({
+      TaskIDs: this.AllTasksIDs.filter(taskA => taskA !== deleteID)
+    })
+      .then(result => {
+        console.log("task removed from user's list");
+      })
+      .catch(error => {
+        console.log("task was not removed from list!");
+        console.log(error.code);
+      });
+
+    //refresh tasks
+    this.getTasks();
+  }
+
+  clearTasks() {
+    this.clearTaskLists();
+
+    //delete all doc associatied with the user
+    var userDocRef = this.db.collection("users").doc(this.mAuth.getEmail());
+    userDocRef.get().subscribe(result => {
+      if (result.exists) {
+        //get list of TaskIDs
+        const taskIDs: string[] = result.get("TaskIDs");
+        taskIDs.forEach(taskID => {
+          this.db.collection("tasks").doc(taskID).delete(); //delete each document
+          console.log("task deleted.");
+        });
+
+        userDocRef.update({
+          TaskIDs: [] //empty list
+        });
+
+        //update tasks displayed (should be none)
+        this.getTasks();
+
+        let snackRef = this.snackbar.open("Tasks Cleared!");
+      }
+    });
+
+
 
   }
 }
@@ -208,7 +268,7 @@ export class TaskDialog {
           weekday: this.data.day
         };
 
-        if(task.description == null){
+        if (task.description == null) {
           task.description = "";
         }
         var docID = this.db.createId();

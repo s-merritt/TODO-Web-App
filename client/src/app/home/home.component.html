@@ -12,6 +12,7 @@
 
           <p>{{task.description}}</p>
           <mat-checkbox [(ngModel)]="task.status" (click)="updateStatus(task)">Completed</mat-checkbox>
+          <button mat-button (click)="deleteTask(task)">Delete</button>
 
         </mat-expansion-panel>
       </mat-accordion>
@@ -29,6 +30,7 @@
 
           <p>{{task.description}}</p>
           <mat-checkbox [(ngModel)]="task.status" (click)="updateStatus(task)">Completed</mat-checkbox>
+          <button mat-button (click)="deleteTask(task)">Delete</button>
 
         </mat-expansion-panel>
       </mat-accordion>
@@ -46,7 +48,7 @@
 
           <p>{{task.description}}</p>
           <mat-checkbox [(ngModel)]="task.status" (click)="updateStatus(task)">Completed</mat-checkbox>
-
+          <button mat-button (click)="deleteTask(task)">Delete</button>
 
         </mat-expansion-panel>
       </mat-accordion>
@@ -64,7 +66,7 @@
 
           <p>{{task.description}}</p>
           <mat-checkbox [(ngModel)]="task.status" (click)="updateStatus(task)">Completed</mat-checkbox>
-
+          <button mat-button (click)="deleteTask(task)">Delete</button>
 
         </mat-expansion-panel>
       </mat-accordion>
@@ -82,7 +84,7 @@
 
           <p>{{task.description}}</p>
           <mat-checkbox [(ngModel)]="task.status" (click)="updateStatus(task)">Completed</mat-checkbox>
-
+          <button mat-button (click)="deleteTask(task)">Delete</button>
 
         </mat-expansion-panel>
       </mat-accordion>
@@ -100,7 +102,7 @@
 
           <p>{{task.description}}</p>
           <mat-checkbox [(ngModel)]="task.status" (click)="updateStatus(task)">Completed</mat-checkbox>
-
+          <button mat-button (click)="deleteTask(task)">Delete</button>
 
         </mat-expansion-panel>
       </mat-accordion>
@@ -118,7 +120,7 @@
 
           <p>{{task.description}}</p>
           <mat-checkbox [(ngModel)]="task.status" (click)="updateStatus(task)">Completed</mat-checkbox>
-
+          <button mat-button (click)="deleteTask(task)">Delete</button>
 
         </mat-expansion-panel>
       </mat-accordion>
@@ -126,5 +128,7 @@
   </div>
   <div class="button_box">
     <button mat-button (click)="createTask()" class="home_button">Create Task</button>
+    <button mat-button (click)="clearTasks()" class="home_button" style="background: #a40000;">Clear All</button>
+
   </div>
 </mat-sidenav-container>
