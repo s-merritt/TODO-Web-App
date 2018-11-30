@@ -30,6 +30,7 @@ export class LoginComponent implements OnInit {
     this.fAuth.auth.onAuthStateChanged(function(user) {
       if(user){
         this.router.navigateByUrl('/home');
+        window.location.reload();
         this.ss.change();
         console.log("user already logged in for this session");
       }

@@ -62,6 +62,7 @@ export class HomeComponent implements OnInit {
       else {
         console.log("user not logged in, re-routing");
         this.router.navigateByUrl('/login');
+        window.location.reload();
       }
     }.bind(this));
   }
