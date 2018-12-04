@@ -57,6 +57,10 @@ div.weekday_box::after {
 }
 
 button.delete_button{
+    margin: 5px;
     background: #a40000;
     text-align: center;
+}
+mat-checkbox{ 
+    margin: 5px;
 }
