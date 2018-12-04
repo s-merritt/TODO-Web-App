@@ -1,9 +1,9 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ViewChildren, QueryList } from '@angular/core';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { Router } from '@angular/router';
 
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar, MatExpansionPanel } from '@angular/material';
 
 import { AngularFirestore } from 'angularfire2/firestore';
 import * as firebase from 'firebase';
@@ -43,6 +43,8 @@ export class HomeComponent implements OnInit {
   thursdayTasks: Task[] = [];
   fridayTasks: Task[] = [];
   saturdayTasks: Task[] = [];
+
+  _allExpandState: boolean = false;
 
   constructor(private fAuth: AngularFireAuth,
     private router: Router,
@@ -234,10 +236,22 @@ export class HomeComponent implements OnInit {
         let snackRef = this.snackbar.open("Tasks Cleared!");
       }
     });
-
-
-
   }
+
+    private get allExpandState ():boolean{
+      return this._allExpandState;
+    }
+
+    togglePanels() {
+      this._allExpandState = !this._allExpandState;
+      this._togglePanels(this._allExpandState);
+    }
+
+    @ViewChildren(MatExpansionPanel) viewPanels: QueryList<MatExpansionPanel>;
+
+    private _togglePanels(value: boolean) {
+      this.viewPanels.forEach(p => value ? p.open() : p.close());
+    }
 }
 
 @Component({

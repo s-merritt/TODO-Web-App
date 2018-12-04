@@ -34,8 +34,6 @@ div.week_box {
 div.desc_box{
     overflow: visible;
     white-space: pre-wrap;
-    border:dashed;
-    border:white;
     max-width: inherit;
 }
 
@@ -50,6 +48,7 @@ div.weekday_box {
     margin: 2px;
     text-align: center;
     /*border: solid;*/
+    border-right: solid;
 }
 div.weekday_box::after {
     content: "";
@@ -60,8 +59,4 @@ div.weekday_box::after {
 button.delete_button{
     background: #a40000;
     text-align: center;
-}
-
-mat-accordion {
-    padding: 2px;
 }
