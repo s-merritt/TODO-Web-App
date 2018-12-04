@@ -31,6 +31,14 @@ div.week_box {
     padding: 5px;
 }
 
+div.desc_box{
+    overflow: visible;
+    white-space: pre-wrap;
+    border:dashed;
+    border:white;
+    max-width: inherit;
+}
+
 div.weekday_box {
     /*float: left;*/
     display:inline-block;
@@ -48,20 +56,12 @@ div.weekday_box::after {
     clear: both;
     display: table;
 }
-/*
-.mat-expansion-panel-header{
-    background: blue;
-}
-.mat-expansion-panel.mat-expanded,
-.mat-expansion-panel.mat-expanded:hover {
-    background: red;
-  }
 
-.checkedStyle{
-    background: green;
+button.delete_button{
+    background: #a40000;
+    text-align: center;
 }
 
-.uncheckedStyle{
-    background: orange;
+mat-accordion {
+    padding: 2px;
 }
-*/

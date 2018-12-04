@@ -64,10 +64,13 @@
             </mat-panel-title>
           </mat-expansion-panel-header>
 
-          <p>{{task.description}}</p>
-          <mat-checkbox [(ngModel)]="task.status" (click)="updateStatus(task)">Completed</mat-checkbox>
-          <button mat-button (click)="deleteTask(task)">Delete</button>
-
+          <div class="desc_box">
+            <p>{{task.description}}</p>
+            <mat-action-row>
+              <mat-checkbox [(ngModel)]="task.status" (click)="updateStatus(task)">Completed</mat-checkbox>
+              <button mat-button class="delete_button" (click)="deleteTask(task)">Delete</button>
+            </mat-action-row>
+          </div>
         </mat-expansion-panel>
       </mat-accordion>
     </div>
