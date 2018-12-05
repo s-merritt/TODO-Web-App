@@ -61,7 +61,7 @@ export class LoginComponent implements OnInit {
   templateUrl: 'dialog.html'
 })
 export class LoginDialog {
-  private isValid: boolean;
+  public isValid: boolean;
 
   constructor(public mAuth: AuthService,
     public dialogRef: MatDialogRef<LoginDialog>,
